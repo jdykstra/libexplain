@@ -53,6 +53,7 @@ struct mntent *
 getmntent(FILE *fp)
 {
     static struct mntent fudge;
+    static char     opts[64];
     struct statfs   *p;
 
     (void)fp;
@@ -62,7 +63,12 @@ getmntent(FILE *fp)
     fudge.mnt_fsname = p->f_mntfromname;
     fudge.mnt_dir = p->f_mntonname;
     fudge.mnt_type = p->f_fstypename;
-    fudge.mnt_opts = "";
+    snprintf(opts, sizeof(opts), "%s%s%s%s",
+        (p->f_flags & MNT_RDONLY) ? "ro" : "rw",
+        (p->f_flags & MNT_NOEXEC) ? ",noexec" : "",
+        (p->f_flags & MNT_NOSUID) ? ",nosuid" : "",
+        (p->f_flags & MNT_NODEV) ? ",nodev" : "");
+    fudge.mnt_opts = opts;
     fudge.mnt_freq = 0;
     fudge.mnt_passno = 0;
     return &fudge;
@@ -216,7 +222,7 @@ hasmntopt(const struct mntent *mnt, const char *opt)
         size_t          len;
 
         c = *cp;
-        if (!cp)
+        if (!c)
             return 0;
         if (isspace(c) || c == ',')
         {

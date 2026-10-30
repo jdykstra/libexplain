@@ -53,6 +53,17 @@ FILE *setmntent(const char *filename, const char *mode);
 struct mntent *getmntent(FILE *fp);
 int endmntent(FILE *fp);
 
+/*
+ * The emulation above (see mntent.c) has the one-argument getmntent
+ * interface, whatever configure made of the missing system function.
+ */
+#undef GETMNTENT_NARGS
+#define GETMNTENT_NARGS 1
+
+#endif
+
+#ifndef HAVE_HASMNTOPT
+char *hasmntopt(const struct mntent *mnt, const char *opt);
 #endif
 
 #ifndef MOUNTED
