@@ -43,6 +43,14 @@ possibly as a result of a preceding read(2) or write(2) system call
 fubar
 test $? -eq 0 || no_result
 
+cat > test.ok4 << 'fubar'
+access(pathname = "foobar", mode = F_OK) failed, Input/output error
+(EIO) because a low-level I/O error occurred in the block special
+device, possibly as a result of a preceding read(2) or write(2)
+system call
+fubar
+test $? -eq 0 || no_result
+
 touch foobar
 test $? -eq 0 || no_result
 
@@ -60,6 +68,7 @@ test $? -eq 0 || no_result
 
 diff test.ok2 test.out > /dev/null 2> /dev/null || \
 diff test.ok3 test.out > /dev/null 2> /dev/null || \
+diff test.ok4 test.out > /dev/null 2> /dev/null || \
 diff test.ok test.out
 test $? -eq 0 || fail
 
