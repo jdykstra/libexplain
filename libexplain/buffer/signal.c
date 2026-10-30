@@ -144,7 +144,7 @@ static explain_parse_bits_table_t table[] =
     { "_NSIG", _NSIG },
 #endif
 
-#if !defined(_SIGRTMIN) && !defined(__SIGRTMIN)
+#if !defined(_SIGRTMIN) && !defined(__SIGRTMIN) && defined(SIGRTMIN)
     /* sometimes this is a non-constant macro: sysconf(_SC_SIGRTMIN) */
     { "SIGRTMIN", SIGRTMIN },
 #endif
@@ -157,7 +157,7 @@ static explain_parse_bits_table_t table[] =
     { "_SIGRTMIN", _SIGRTMIN },
 #endif
 
-#if !defined(_SIGRTMAX) && !defined(__SIGRTMAX)
+#if !defined(_SIGRTMAX) && !defined(__SIGRTMAX) && defined(SIGRTMAX)
     /* sometimes this is a non-constant macro: sysconf(_SC_SIGRTMAX) */
     { "SIGRTMAX", SIGRTMAX },
 #endif

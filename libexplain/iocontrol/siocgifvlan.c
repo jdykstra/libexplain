@@ -27,7 +27,7 @@
 #include <libexplain/iocontrol/siocgifvlan.h>
 
 
-#ifdef SIOCGIFVLAN
+#if defined(SIOCGIFVLAN) && defined(HAVE_LINUX_IF_VLAN_H)
 
 static void
 print_data(const explain_iocontrol_t *p, explain_string_buffer_t *sb,

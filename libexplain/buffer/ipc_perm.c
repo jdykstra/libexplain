@@ -96,7 +96,10 @@ explain_buffer_ipc_perm(explain_string_buffer_t *sb,
     explain_string_buffer_puts(sb, "{ ");
     if (extra)
     {
-#ifdef SYS_SHM_H_struct_ipc_perm_underscore_key
+#ifdef __APPLE__
+        /* the key is reserved for internal use */
+        explain_string_buffer_puts(sb, "key = ?");
+#elif defined(SYS_SHM_H_struct_ipc_perm_underscore_key)
         explain_string_buffer_puts(sb, "__key = ");
         explain_buffer_int(sb, data->__key);
 #else
@@ -120,7 +123,9 @@ explain_buffer_ipc_perm(explain_string_buffer_t *sb,
     explain_buffer_ipc_perm_mode(sb, data->mode);
     if (extra)
     {
-#ifdef SYS_SHM_H_struct_ipc_perm_underscore_key
+#ifdef __APPLE__
+        explain_string_buffer_puts(sb, ", seq = ?");
+#elif defined(SYS_SHM_H_struct_ipc_perm_underscore_key)
         explain_string_buffer_puts(sb, ", __seq = ");
         explain_buffer_ushort(sb, data->__seq);
 #else

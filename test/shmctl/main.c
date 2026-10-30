@@ -43,6 +43,7 @@ usage(void)
 }
 
 
+#ifdef __linux__
 static void
 print_shm_info(const struct shm_info *data)
 {
@@ -65,6 +66,7 @@ print_shminfo(const struct shminfo *data)
     explain_buffer_shminfo(&result_sb, data);
     explain_wrap_and_print(stdout, result);
 }
+#endif
 
 
 static void
@@ -81,6 +83,7 @@ print_shmid_ds(int shmid, const struct shmid_ds *data)
 }
 
 
+#ifdef __linux__
 static void
 list(void)
 {
@@ -114,6 +117,13 @@ list(void)
         print_shmid_ds(shmid, &shmseg);
     }
 }
+#else
+static void
+list(void)
+{
+    explain_output_error_and_die("listing is only supported on Linux");
+}
+#endif
 
 
 int

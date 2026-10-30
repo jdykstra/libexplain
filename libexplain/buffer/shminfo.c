@@ -28,7 +28,7 @@ void
 explain_buffer_shminfo(explain_string_buffer_t *sb,
     const struct shminfo *data)
 {
-#ifdef HAVE_SYS_SHM_H
+#if defined(HAVE_SYS_SHM_H) && defined(__linux__)
     if (explain_is_efault_pointer(data, sizeof(*data)))
     {
         explain_buffer_pointer(sb, data);

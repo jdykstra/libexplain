@@ -146,6 +146,7 @@ explain_buffer_mtop_op(explain_string_buffer_t *sb, int data)
 }
 
 
+#ifdef HAVE_SYS_MTIO_H
 void
 explain_buffer_mtop(explain_string_buffer_t *sb,
     const struct mtop *data)
@@ -200,6 +201,14 @@ explain_buffer_mtop(explain_string_buffer_t *sb,
         explain_string_buffer_puts(sb, " }");
     }
 }
+#else
+void
+explain_buffer_mtop(explain_string_buffer_t *sb,
+    const struct mtop *data)
+{
+    explain_buffer_pointer(sb, data);
+}
+#endif
 
 
 /* vim: set ts=8 sw=4 et : */

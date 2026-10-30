@@ -58,11 +58,16 @@ explain_buffer_errno_read_system_call(explain_string_buffer_t *sb, int errnum,
 static int
 is_a_tape(int fildes)
 {
+#ifdef HAVE_SYS_MTIO_H
     struct mtop     args;
 
     args.mt_op = MTNOP;
     args.mt_count = 0;
     return (ioctl(fildes, MTIOCTOP, &args) >= 0);
+#else
+    (void)fildes;
+    return 0;
+#endif
 }
 
 
