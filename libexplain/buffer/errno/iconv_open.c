@@ -177,16 +177,28 @@ get_list_of_known_names(void)
         return;
     for (;;)
     {
-        char            buffer[200];
-        char            *slash;
+        char            buffer[8192];
+        char            *cp;
 
         if (!fgets(buffer, sizeof(buffer), fp))
             break;
-        slash = strpbrk(buffer, "/\r\n");
-        if (slash)
-            *slash = '\0';
-        upcase_insitu(buffer);
-        one_more_name(buffer);
+
+        /*
+         * glibc prints one name per line, but MacOS prints each
+         * encoding with all of its aliases on one line.
+         */
+        for (cp = strtok(buffer, " \t\r\n"); cp; cp = strtok(NULL, " \t\r\n"))
+        {
+            char            *slash;
+
+            slash = strchr(cp, '/');
+            if (slash)
+                *slash = '\0';
+            if (!*cp)
+                continue;
+            upcase_insitu(cp);
+            one_more_name(cp);
+        }
     }
     pclose(fp);
 }

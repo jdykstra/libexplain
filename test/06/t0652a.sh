@@ -40,6 +40,14 @@ the fildes argument does not refer to an object that is open for writing
 fubar
 test $? -eq 0 || no_result
 
+# MacOS has no O_LARGEFILE.
+fmt > test.ok.3 << 'fubar'
+fputs(s = "yuck", fp = stdin) failed, Bad file descriptor (EBADF) because
+the fildes argument does not refer to an object that is open for writing
+(O_RDONLY)
+fubar
+test $? -eq 0 || no_result
+
 test_fputs yuck stdin > test.out.4 2>&1
 if test $? -ne 1
 then
@@ -57,6 +65,7 @@ fmt test.out.2 > test.out
 test $? -eq 0 || no_result
 
 diff test.ok.2 test.out > /dev/null 2>&1 && pass
+diff test.ok.3 test.out > /dev/null 2>&1 && pass
 
 diff test.ok.1 test.out
 test $? -eq 0 || fail

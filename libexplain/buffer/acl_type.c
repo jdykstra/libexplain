@@ -25,13 +25,13 @@
 
 static const explain_parse_bits_table_t table[] =
 {
-#ifdef ACL_TYPE_ACCESS
+#if defined(ACL_TYPE_ACCESS) || defined(__APPLE__)
     { "ACL_TYPE_ACCESS", ACL_TYPE_ACCESS },
 #endif
-#ifdef ACL_TYPE_DEFAULT
+#if defined(ACL_TYPE_DEFAULT) || defined(__APPLE__)
     { "ACL_TYPE_DEFAULT", ACL_TYPE_DEFAULT },
 #endif
-#ifdef ACL_TYPE_EXTENDED
+#if defined(ACL_TYPE_EXTENDED) || defined(__APPLE__)
     { "ACL_TYPE_EXTENDED", ACL_TYPE_EXTENDED },
 #endif
 #ifdef ACL_TYPE_NFS_v4
@@ -43,6 +43,14 @@ static const explain_parse_bits_table_t table[] =
 void
 explain_buffer_acl_type(explain_string_buffer_t *sb, acl_type_t value)
 {
+#ifdef __APPLE__
+    /* ACL_TYPE_ACCESS is zero, which parse_bits would print as a number */
+    if (value == ACL_TYPE_ACCESS)
+    {
+        explain_string_buffer_puts(sb, "ACL_TYPE_ACCESS");
+        return;
+    }
+#endif
     explain_parse_bits_print(sb, value, table, SIZEOF(table));
 }
 

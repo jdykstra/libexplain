@@ -108,6 +108,10 @@ test $? -eq 0 || exit 2
 cd $testdir
 test $? -eq 0 || no_result
 
+# On MacOS, /tmp is a symbolic link to /private/tmp, and the library
+# reports the resolved path, so the tests need to use the real one.
+testdir=`pwd -P`
+
 # On cygwin, we need to have diff ignore the CR in CRLF sequences
 # otherwise we see diff output which looks to be identical but which
 # diff things differs.  And it does, by a carriage return.

@@ -23,7 +23,7 @@ TEST_SUBJECT="symlink ENOENT"
 
 sys=`uname -s`
 case "$sys" in
-SunOS | FreeBSD)
+SunOS | FreeBSD | Darwin)
     echo
     echo "    $sys has non-POSIX semantics for empty paths."
     echo "    This test is declared to pass by default."
