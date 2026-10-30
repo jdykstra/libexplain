@@ -21,14 +21,6 @@
 #define LIBEXPLAIN_CONFIG_MESSY_H
 
 /*
- * clang tries to impersonate gcc, but does a poor job of it.
- */
-#ifdef __clang__
-#undef __GNUC__
-#undef __GNU_MINOR__
-#endif
-
-/*
  * Make sure Solaris includes POSIX extensions.
  */
 #if (defined(__sun) || defined(__sun__) || defined(sun)) && \
