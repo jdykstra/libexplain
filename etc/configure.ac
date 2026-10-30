@@ -855,7 +855,12 @@ dnl!  We need to know whether statfs takes two arguments or four.
 dnl!
 AC_MSG_CHECKING([number of arguments to statfs])
 AC_TRY_COMPILE([
+#ifdef HAVE_SYS_VFS_H
 #include <sys/vfs.h>
+#elif defined(HAVE_SYS_MOUNT_H)
+#include <sys/param.h>
+#include <sys/mount.h>
+#endif
 #ifdef HAVE_SYS_MNTENT_H
 #include <sys/statfs.h>
 #endif
