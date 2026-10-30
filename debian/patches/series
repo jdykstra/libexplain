@@ -1,0 +1,29 @@
+01_termio.patch
+02_alpha-fcntl-h.patch
+03_fsflags-4.5.patch
+04_test-t0274a.patch
+05_largefile.patch
+06_sysctl.patch
+07_ustat.patch
+08_hppa.patch
+fix-tests-sed.patch
+nettstamp-needs-types.patch
+sanitize-bison.patch
+gcc-10.patch
+typos.patch
+linux5.11.patch
+termiox-no-more-exists-since-kernel-5.12.patch
+use-command-v.patch
+missing-prototypes.patch
+unshare-1.patch
+unshare-2.patch
+gcc-14.patch
+# hurd/hurd-PATH_MAX-NOFILE.patch
+# hurd/hurd-ignore-setsockopt.patch
+# hurd/hurd-no-SA_NOCLDWAIT.patch
+# hurd/hurd-ppp_idle.patch
+# hurd/hurd-struct_rtentry.patch
+# hurd/hurd-struct_in6_ifreq.patch
+# hurd/hurd-undef-TILDE.patch
+# hurd/yacc-common.patch
+# hurd/hurd-tests-partial.patch

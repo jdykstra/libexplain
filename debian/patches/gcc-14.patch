@@ -1,0 +1,102 @@
+Author: Andreas Beckmann <anbe@debian.org>
+Description: fix building with GCC 14
+
+--- a/libexplain/buffer/v4l2_bt_timings.c
++++ b/libexplain/buffer/v4l2_bt_timings.c
+@@ -18,6 +18,7 @@
+ 
+ #include <libexplain/ac/linux/videodev2.h>
+ 
++#include <libexplain/buffer/int8.h>
+ #include <libexplain/buffer/int32_t.h>
+ #include <libexplain/buffer/int64_t.h>
+ #include <libexplain/buffer/v4l2_bt_timings.h>
+@@ -99,10 +100,10 @@ explain_buffer_v4l2_bt_timings(explain_s
+         explain_string_buffer_puts(sb, ", il_vbackporch = ");
+         explain_buffer_uint32_t(sb, data->il_vbackporch);
+     }
+-    if (!explain_uint32_array_all_zero(data->reserved, SIZEOF(data->reserved)))
++    if (!explain_uint8_array_all_zero(data->reserved, SIZEOF(data->reserved)))
+     {
+         explain_string_buffer_puts(sb, ", reserved = ");
+-        explain_buffer_uint32_array(sb, data->reserved, SIZEOF(data->reserved));
++        explain_buffer_uint8_array(sb, data->reserved, SIZEOF(data->reserved));
+     }
+     explain_string_buffer_puts(sb, " }");
+ }
+--- a/libexplain/buffer/int8.c
++++ b/libexplain/buffer/int8.c
+@@ -94,4 +94,18 @@ explain_buffer_uint8_star(explain_string
+ }
+ 
+ 
++int
++explain_uint8_array_all_zero(const unsigned char *data, size_t data_size)
++{
++    while (data_size > 0)
++    {
++        if (*data)
++            return 0;
++        ++data;
++        --data_size;
++    }
++    return 1;
++}
++
++
+ /* vim: set ts=8 sw=4 et : */
+--- a/libexplain/buffer/int8.h
++++ b/libexplain/buffer/int8.h
+@@ -73,5 +73,18 @@ void explain_buffer_uint8(explain_string
+ void explain_buffer_uint8_star(explain_string_buffer_t *sb,
+     const unsigned char *data, size_t data_size);
+ 
++#define explain_buffer_uint8_array explain_buffer_uint8_star
++
++/**
++  * The explain_uint8_array_all_zero function may be used to
++  * test an uint8 array, to see if all the values are zero.
++  *
++  * @param data
++  *     The uint8 array to be tested.
++  * @param data_size
++  *     The number of elements in the array to be tested.
++  */
++int explain_uint8_array_all_zero(const unsigned char *data, size_t data_size);
++
+ #endif /* LIBEXPLAIN_BUFFER_INT8_H */
+ /* vim: set ts=8 sw=4 et : */
+--- a/libexplain/buffer/v4l2_framebuffer.c
++++ b/libexplain/buffer/v4l2_framebuffer.c
+@@ -45,7 +45,7 @@ explain_buffer_v4l2_framebuffer(explain_
+     explain_string_buffer_puts(sb, ", base = ");
+     explain_buffer_pointer(sb, data->base);
+     explain_string_buffer_puts(sb, ", fmt = ");
+-    explain_buffer_v4l2_pix_format(sb, &data->fmt);
++    explain_buffer_v4l2_pix_format(sb, (const struct v4l2_pix_format *)&data->fmt);
+     explain_string_buffer_puts(sb, " }");
+ }
+ 
+--- a/libexplain/buffer/v4l2_requestbuffers.c
++++ b/libexplain/buffer/v4l2_requestbuffers.c
+@@ -18,6 +18,7 @@
+ 
+ #include <libexplain/ac/linux/videodev2.h>
+ 
++#include <libexplain/buffer/int8.h>
+ #include <libexplain/buffer/int32_t.h>
+ #include <libexplain/buffer/v4l2_buf_type.h>
+ #include <libexplain/buffer/v4l2_memory.h>
+@@ -45,10 +46,10 @@ explain_buffer_v4l2_requestbuffers(expla
+     explain_buffer_v4l2_buf_type(sb, data->type);
+     explain_string_buffer_puts(sb, ", memory = ");
+     explain_buffer_v4l2_memory(sb, data->memory);
+-    if (!explain_uint32_array_all_zero(data->reserved, SIZEOF(data->reserved)))
++    if (!explain_uint8_array_all_zero(data->reserved, SIZEOF(data->reserved)))
+     {
+         explain_string_buffer_puts(sb, ", reserved = ");
+-        explain_buffer_uint32_array(sb, data->reserved, SIZEOF(data->reserved));
++        explain_buffer_uint8_array(sb, data->reserved, SIZEOF(data->reserved));
+     }
+     explain_string_buffer_puts(sb, " }");
+ }

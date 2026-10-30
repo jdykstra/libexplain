@@ -1,0 +1,23 @@
+#!/usr/bin/make -f
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+
+%:
+	dh $@
+
+execute_before_dh_autoreconf:
+	ln -s etc/configure.ac configure.ac
+
+override_dh_auto_test:
+	dh_auto_test --no-parallel
+
+execute_after_dh_auto_install:
+	rm -fv debian/tmp/usr/lib/*/*.la
+	rm -fv debian/tmp/usr/share/man/man1/explain_license.1
+	rm -fv debian/tmp/usr/share/man/man3/explain_license.3
+
+override_dh_compress:
+	dh_compress --exclude=.pdf

@@ -1,0 +1,15 @@
+diff --git a/libexplain/buffer/note/sigchld.c b/libexplain/buffer/note/sigchld.c
+index 22976b1c..d74e4a7c 100644
+--- a/libexplain/buffer/note/sigchld.c
++++ b/libexplain/buffer/note/sigchld.c
+@@ -29,8 +29,10 @@ sigchld_ignored(void)
+     struct sigaction oldact;
+     if (sigaction(SIGCHLD, 0, &oldact) < 0)
+         return -1;
++#ifdef SA_NOCLDWAIT
+     if (oldact.sa_flags & SA_NOCLDWAIT)
+         return 1;
++#endif
+     if (oldact.sa_flags & SA_SIGINFO)
+         return 0;
+     return (oldact.sa_handler == SIG_IGN);

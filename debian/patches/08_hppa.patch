@@ -1,0 +1,128 @@
+Description: Fix FTBFS on hppa - add handling of flags with multiple bits set
+ On hppa the 'eventfd EINVAL' test was failing because the EFD_NONBLOCK was
+ being incorrectly parsed. On hppa this flag sets two separate bits but the
+ explain_parse_bits_print function does not handle this case. Fix by rewriting
+ the algorithm to work on both cases. The access_modes table needed reordering
+ to keep the old behavior there (this patch might change the ordering of some
+ flags). Also handle a similar situation in explain_buffer_open_flags.
+Author: James Cowgill <jcowgill@debian.org>
+Bug-Debian: https://bugs.debian.org/834511
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- a/libexplain/parse_bits/print.c
++++ b/libexplain/parse_bits/print.c
+@@ -26,7 +26,7 @@ explain_parse_bits_print(explain_string_
+     const explain_parse_bits_table_t *table, int table_size)
+ {
+     int             first;
+-    int             other;
++    int             i;
+ 
+     if (value == 0)
+     {
+@@ -34,32 +34,26 @@ explain_parse_bits_print(explain_string_
+         return;
+     }
+     first = 1;
+-    other = 0;
+-    for (;;)
+-    {
+-        int             bit;
+-        const explain_parse_bits_table_t *tp;
+ 
+-        bit = value & -value;
+-        value -= bit;
+-        tp = explain_parse_bits_find_by_value(bit, table, table_size);
+-        if (tp)
++    // Iterate over entire table checking value against each flag
++    for (i = 0; i < table_size && value != 0; i++)
++    {
++        int flag = table[i].value;
++        if (flag != 0 && (flag & value) == flag)
+         {
++            value -= flag;
++
+             if (!first)
+                 explain_string_buffer_puts(sb, " | ");
+-            explain_string_buffer_puts(sb, tp->name);
++            explain_string_buffer_puts(sb, table[i].name);
+             first = 0;
+         }
+-        else
+-            other |= bit;
+-        if (!value)
+-            break;
+     }
+-    if (other)
++    if (value != 0)
+     {
+         if (!first)
+             explain_string_buffer_puts(sb, " | ");
+-        explain_string_buffer_printf(sb, "0x%X", other);
++        explain_string_buffer_printf(sb, "0x%X", value);
+     }
+ }
+ 
+--- a/libexplain/buffer/access_mode.c
++++ b/libexplain/buffer/access_mode.c
+@@ -27,10 +27,10 @@
+ 
+ static const explain_parse_bits_table_t table[] =
+ {
+-    { "F_OK", F_OK },
+-    { "R_OK", R_OK },
+-    { "W_OK", W_OK },
+     { "X_OK", X_OK },
++    { "W_OK", W_OK },
++    { "R_OK", R_OK },
++    { "F_OK", F_OK },
+ };
+ 
+ 
+--- a/libexplain/buffer/open_flags.c
++++ b/libexplain/buffer/open_flags.c
+@@ -158,7 +158,7 @@ void
+ explain_buffer_open_flags(explain_string_buffer_t *sb, int flags)
+ {
+     int             low_bits;
+-    int             other;
++    int             i;
+ 
+     low_bits = flags & O_ACCMODE;
+     flags &= ~O_ACCMODE;
+@@ -194,25 +194,21 @@ explain_buffer_open_flags(explain_string
+         explain_string_buffer_printf(sb, "%d", low_bits);
+         break;
+     }
+-    other = 0;
+-    while (flags != 0)
+-    {
+-        int             bit;
+-        const explain_parse_bits_table_t *tp;
+ 
+-        bit = (flags & -flags);
+-        flags &= ~bit;
+-        tp = explain_parse_bits_find_by_value(bit, table, SIZEOF(table));
+-        if (tp)
++    // Iterate over entire table checking flags against each flag
++    for (i = 0; i < SIZEOF(table) && flags != 0; i++)
++    {
++        int curr_flag = table[i].value;
++        if (curr_flag != 0 && (curr_flag & flags) == curr_flag)
+         {
++            flags -= curr_flag;
++
+             explain_string_buffer_puts(sb, " | ");
+-            explain_string_buffer_puts(sb, tp->name);
++            explain_string_buffer_puts(sb, table[i].name);
+         }
+-        else
+-            other |= bit;
+     }
+-    if (other != 0)
+-        explain_string_buffer_printf(sb, " | %#o", other);
++    if (flags != 0)
++        explain_string_buffer_printf(sb, " | %#o", flags);
+ }
+ 
+ 

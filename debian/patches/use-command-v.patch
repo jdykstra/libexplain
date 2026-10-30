@@ -1,0 +1,21 @@
+From: Håvard Flaget Aasen <haavard_aasen@yahoo.no>
+Date: Tue, 16 Nov 2021 21:18:55 +0100
+Subject: use command -v
+
+---
+ script/test_prelude.sh.in | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/script/test_prelude.sh.in b/script/test_prelude.sh.in
+index 7a29cc1..c6dfc14 100644
+--- a/script/test_prelude.sh.in
++++ b/script/test_prelude.sh.in
+@@ -113,7 +113,7 @@ test $? -eq 0 || no_result
+ # diff things differs.  And it does, by a carriage return.
+ if diff --strip-trailing-cr /dev/null /dev/null > /dev/null 2>&1
+ then
+-    diffpath=`which diff`
++    diffpath=`command -v diff`
+     diff() {
+         $diffpath --strip-trailing-cr "$@"
+     }

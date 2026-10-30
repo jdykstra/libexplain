@@ -1,0 +1,26 @@
+diff --git a/libexplain/iocontrol/siocaddrt.c b/libexplain/iocontrol/siocaddrt.c
+index 593d24b7..828bd1a3 100644
+--- a/libexplain/iocontrol/siocaddrt.c
++++ b/libexplain/iocontrol/siocaddrt.c
+@@ -25,7 +25,7 @@
+ #include <libexplain/iocontrol/siocaddrt.h>
+ 
+ 
+-#ifdef SIOCADDRT
++#if defined(SIOCADDRT) && defined(__linux__)
+ 
+ static void
+ print_data(const explain_iocontrol_t *p, explain_string_buffer_t *sb,
+diff --git a/libexplain/iocontrol/siocdelrt.c b/libexplain/iocontrol/siocdelrt.c
+index 8deee3d9..ac58a74a 100644
+--- a/libexplain/iocontrol/siocdelrt.c
++++ b/libexplain/iocontrol/siocdelrt.c
+@@ -25,7 +25,7 @@
+ #include <libexplain/iocontrol/siocdelrt.h>
+ 
+ 
+-#ifdef SIOCDELRT
++#if defined(SIOCDELRT) && defined(__linux__)
+ 
+ static void
+ print_data(const explain_iocontrol_t *p, explain_string_buffer_t *sb,

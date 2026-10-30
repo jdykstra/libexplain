@@ -1,0 +1,13 @@
+diff --git a/libexplain/iocontrol/siocdifaddr.c b/libexplain/iocontrol/siocdifaddr.c
+index a70a2803..e1c4f4c9 100644
+--- a/libexplain/iocontrol/siocdifaddr.c
++++ b/libexplain/iocontrol/siocdifaddr.c
+@@ -35,7 +35,7 @@
+ #include <libexplain/iocontrol/siocdifaddr.h>
+ 
+ 
+-#ifdef SIOCDIFADDR
++#if defined(SIOCDIFADDR) && defined(__linux__)
+ 
+ static void
+ print_data(const explain_iocontrol_t *p, explain_string_buffer_t *sb,

@@ -1,0 +1,13 @@
+diff --git a/libexplain/printf_format.y b/libexplain/printf_format.y
+index 72c90b41..9f47630c 100644
+--- a/libexplain/printf_format.y
++++ b/libexplain/printf_format.y
+@@ -77,6 +77,8 @@ int yyparse(void);
+ #if YYDEBUG
+ extern int yydebug;
+ #endif
++extern YYSTYPE yylval;
++extern int yynerrs;
+ 
+ 
+ size_t

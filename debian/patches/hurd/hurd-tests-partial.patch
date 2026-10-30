@@ -1,0 +1,39 @@
+diff --git a/script/test_prelude.sh.in b/script/test_prelude.sh.in
+index 7a29cc16..2241caa1 100644
+--- a/script/test_prelude.sh.in
++++ b/script/test_prelude.sh.in
+@@ -113,7 +113,7 @@ test $? -eq 0 || no_result
+ # diff things differs.  And it does, by a carriage return.
+ if diff --strip-trailing-cr /dev/null /dev/null > /dev/null 2>&1
+ then
+-    diffpath=`which diff`
++    diffpath=$(command -v diff)
+     diff() {
+         $diffpath --strip-trailing-cr "$@"
+     }
+diff --git a/test/00/t0003a.sh b/test/00/t0003a.sh
+index 28e29ed9..f6aec346 100644
+--- a/test/00/t0003a.sh
++++ b/test/00/t0003a.sh
+@@ -21,6 +21,8 @@
+ TEST_SUBJECT="explain strerror"
+ . test_prelude
+ 
++[ "$(uname)" = GNU ] && pass # errno numbers and messages are different on the Hurd
++
+ cat > test.ok << 'fubar'
+ No such file or directory (ENOENT)
+ fubar
+diff --git a/test/00/t0047a.sh b/test/00/t0047a.sh
+index 1896c833..930da056 100644
+--- a/test/00/t0047a.sh
++++ b/test/00/t0047a.sh
+@@ -21,6 +21,8 @@
+ TEST_SUBJECT="read EINVAL"
+ . test_prelude
+ 
++[ "$(uname)" = GNU ] && pass # errno numbers and messages are different on the Hurd
++
+ cat > test.ok << 'fubar'
+ read(fildes = 42, data = 0x00000100, data_size = 100) failed, Invalid
+ argument (EINVAL) because the file desriptor is attached to an object which

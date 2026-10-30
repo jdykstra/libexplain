@@ -1,0 +1,12 @@
+diff --git a/libexplain/parse_bits.y b/libexplain/parse_bits.y
+index cda45991..86cf2f28 100644
+--- a/libexplain/parse_bits.y
++++ b/libexplain/parse_bits.y
+@@ -39,6 +39,7 @@
+ 
+ #define YYDEBUG 0
+ #define YYERROR_VERBOSE 1
++#undef TILDE
+ 
+ #if YYDEBUG
+ extern int yydebug;

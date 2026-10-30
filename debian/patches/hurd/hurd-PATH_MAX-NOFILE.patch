@@ -1,0 +1,30 @@
+diff --git a/libexplain/ac/limits.h b/libexplain/ac/limits.h
+index a58add51..9d319c9b 100644
+--- a/libexplain/ac/limits.h
++++ b/libexplain/ac/limits.h
+@@ -69,5 +69,9 @@
+ 
+ #endif /* !HAVE_LIMITS_H */
+ 
++#ifndef PATH_MAX
++#define PATH_MAX 4096
++#endif
++
+ #endif /* LIBEXPLAIN_AC_LIMITS_H */
+ /* vim: set ts=8 sw=4 et : */
+diff --git a/libexplain/buffer/check_fildes_range.c b/libexplain/buffer/check_fildes_range.c
+index 9836b2b9..6e9602bb 100644
+--- a/libexplain/buffer/check_fildes_range.c
++++ b/libexplain/buffer/check_fildes_range.c
+@@ -32,8 +32,10 @@ get_open_max(void)
+     {
+ #ifdef OPEN_MAX
+         open_max = OPEN_MAX; /* <sys/param.h> */
+-#else
++#elif defined(NOFILE)
+         open_max = NOFILE; /* <sys/param.h> */
++#else
++        open_max = INT_MAX;
+ #endif
+     }
+     return open_max;

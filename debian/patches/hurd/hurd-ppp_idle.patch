@@ -1,0 +1,40 @@
+diff --git a/libexplain/buffer/ppp_idle.c b/libexplain/buffer/ppp_idle.c
+index 4a80201a..c7e21b90 100644
+--- a/libexplain/buffer/ppp_idle.c
++++ b/libexplain/buffer/ppp_idle.c
+@@ -16,6 +16,8 @@
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+  */
+ 
++#if __linux__
++
+ #include <libexplain/ac/linux/filter.h>
+ #include <libexplain/ac/net/ppp_defs.h>
+ 
+@@ -42,5 +44,6 @@ explain_buffer_ppp_idle(explain_string_buffer_t *sb,
+     explain_string_buffer_puts(sb, " }");
+ }
+ 
++#endif
+ 
+ /* vim: set ts=8 sw=4 et : */
+diff --git a/libexplain/buffer/ppp_idle.h b/libexplain/buffer/ppp_idle.h
+index 5f483dbf..40505100 100644
+--- a/libexplain/buffer/ppp_idle.h
++++ b/libexplain/buffer/ppp_idle.h
+@@ -23,6 +23,7 @@
+ 
+ struct ppp_idle; /* forward */
+ 
++#if __linux__
+ /**
+   * The explain_buffer_ppp_idle function may be used
+   * to print a representation of a ppp_idle structure.
+@@ -34,6 +35,7 @@ struct ppp_idle; /* forward */
+   */
+ void explain_buffer_ppp_idle(explain_string_buffer_t *sb,
+     const struct ppp_idle *data);
++#endif
+ 
+ #endif /* LIBEXPLAIN_BUFFER_PPP_IDLE_H */
+ /* vim: set ts=8 sw=4 et : */

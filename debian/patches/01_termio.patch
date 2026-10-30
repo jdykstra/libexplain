@@ -1,0 +1,56 @@
+From: Bastian Germann <bage@debian.org>
+Date: Mon, 16 Feb 2026 00:48:36 +0100
+Subject: Disable check for termio ioctls
+---
+diff --git a/libexplain/iocontrol/tcgeta.c b/libexplain/iocontrol/tcgeta.c
+index 8df4a464..9580f524 100644
+--- a/libexplain/iocontrol/tcgeta.c
++++ b/libexplain/iocontrol/tcgeta.c
+@@ -24,7 +24,7 @@
+ #include <libexplain/iocontrol/tcgeta.h>
+ 
+ 
+-#ifdef TCGETA
++#if 0
+ 
+ static void
+ print_data_returned(const explain_iocontrol_t *p, explain_string_buffer_t *sb,
+diff --git a/libexplain/iocontrol/tcseta.c b/libexplain/iocontrol/tcseta.c
+index ca9a98b3..0cb12670 100644
+--- a/libexplain/iocontrol/tcseta.c
++++ b/libexplain/iocontrol/tcseta.c
+@@ -24,7 +24,7 @@
+ #include <libexplain/string_buffer.h>
+ 
+ 
+-#ifdef TCSETA
++#if 0
+ 
+ static void
+ print_data(const explain_iocontrol_t *p, explain_string_buffer_t *sb,
+diff --git a/libexplain/iocontrol/tcsetaf.c b/libexplain/iocontrol/tcsetaf.c
+index 01d038f7..50f2b2a9 100644
+--- a/libexplain/iocontrol/tcsetaf.c
++++ b/libexplain/iocontrol/tcsetaf.c
+@@ -25,7 +25,7 @@
+ #include <libexplain/buffer/termio.h>
+ 
+ 
+-#ifdef TCSETAF
++#if 0
+ 
+ static void
+ print_data(const explain_iocontrol_t *p, explain_string_buffer_t *sb, int
+diff --git a/libexplain/iocontrol/tcsetaw.c b/libexplain/iocontrol/tcsetaw.c
+index def3e390..5c5af903 100644
+--- a/libexplain/iocontrol/tcsetaw.c
++++ b/libexplain/iocontrol/tcsetaw.c
+@@ -24,7 +24,7 @@
+ 
+ #include <libexplain/buffer/termio.h>
+ 
+-#ifdef TCSETAW
++#if 0
+ 
+ 
+ static void

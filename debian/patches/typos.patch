@@ -1,0 +1,222 @@
+Author: Andreas Beckmann <anbe@debian.org>
+Description: fix typos found by Lintian
+
+--- a/libexplain/buffer/ehostunreach.c
++++ b/libexplain/buffer/ehostunreach.c
+@@ -27,7 +27,7 @@ explain_buffer_ehostunreach(explain_stri
+     (
+         sb,
+         /*
+-         * xgettext: This eror message is issued to explain an
++         * xgettext: This error message is issued to explain an
+          * EHOSTUNREACH error.
+          */
+         i18n("the remote host does not appear to be connected to the "
+--- a/libexplain/buffer/ehostunreach.h
++++ b/libexplain/buffer/ehostunreach.h
+@@ -23,7 +23,7 @@
+ 
+ /**
+   * The explain_buffer_ehostunreach function may be used
+-  * to print an explaination of an EHOSTUNREACH error.
++  * to print an explanation of an EHOSTUNREACH error.
+   *
+   * @param sb
+   *     The string buffer to print into.
+--- a/libexplain/buffer/eisdir.h
++++ b/libexplain/buffer/eisdir.h
+@@ -25,7 +25,7 @@ struct eisdir; /* forward */
+ 
+ /**
+   * The explain_buffer_eisdir function may be used to print an
+-  * explainaton for an EISDIR error, in the case where a file was to be
++  * explanation for an EISDIR error, in the case where a file was to be
+   * opened for writing.
+   *
+   * @param sb
+--- a/libexplain/buffer/enametoolong.h
++++ b/libexplain/buffer/enametoolong.h
+@@ -69,7 +69,7 @@ void explain_buffer_enametoolong2(explai
+ 
+ /**
+   * The explain_buffer_enametoolong_gethostname function is sued to
+-  * print an explaination for an ENAMETOOLONG error reported by the
++  * print an explanation for an ENAMETOOLONG error reported by the
+   * gethostname, getdomainname (etc) functions.
+   *
+   * @param sb
+--- a/libexplain/buffer/enomedium.c
++++ b/libexplain/buffer/enomedium.c
+@@ -339,7 +339,7 @@ explain_buffer_enomedium_generic(explain
+         sb,
+         /*
+          * xgettext:  This error message is issued to explain an
+-         * ENOMEDIUM error, when a more specific explaination is not
++         * ENOMEDIUM error, when a more specific explanation is not
+          * available.
+          */
+         i18n("the disk drive is a type that has removable disks, and there "
+--- a/libexplain/buffer/errno/acl_set_file.c
++++ b/libexplain/buffer/errno/acl_set_file.c
+@@ -224,7 +224,7 @@ explain_buffer_errno_acl_set_file_explan
+          * new ACL cannot be extended or the file system is out
+          * of file allocation resources.
+          */
+-        explain_buffer_enospc(sb, pathname, "pathnme");
++        explain_buffer_enospc(sb, pathname, "pathname");
+         break;
+ 
+     case ENOTDIR:
+--- a/libexplain/buffer/errno/mount.c
++++ b/libexplain/buffer/errno/mount.c
+@@ -540,7 +540,7 @@ explain_buffer_errno_mount_explanation(e
+             (
+                 sb,
+                 /* FIXME: i18n */
+-                "target is still busy with open files or working diretories "
++                "target is still busy with open files or working directories "
+             );
+             return;
+         }
+--- a/libexplain/buffer/errno/read.c
++++ b/libexplain/buffer/errno/read.c
+@@ -159,7 +159,7 @@ explain_buffer_errno_read_explanation(ex
+                 (
+                     sb,
+                     /* FIXME: i18n */
+-                    "the file desriptor is attached to an object "
++                    "the file descriptor is attached to an object "
+                     "which is unsuitable for reading; or, the file was "
+                     "opened with the O_DIRECT flag, and either the "
+                     "address specified in data, the value specified "
+--- a/libexplain/buffer/hstrerror.c
++++ b/libexplain/buffer/hstrerror.c
+@@ -115,7 +115,7 @@ print_h_errno_description(explain_string
+         sb,
+ 
+         /*
+-         * xgettext: This message is used when hstreror is unable to translate
++         * xgettext: This message is used when hstrerror is unable to translate
+          * an h_errno value, in which causes this fall-back message to be used.
+          */
+         i18n("unknown <netdb.h> error")
+--- a/libexplain/buffer/strerror.c
++++ b/libexplain/buffer/strerror.c
+@@ -42,7 +42,7 @@ explain_buffer_strerror(explain_string_b
+             explain_gettext
+             (
+                 /*
+-                 * xgettext: This message is used when streror (or strerror_r)
++                 * xgettext: This message is used when strerror (or strerror_r)
+                  * is unable to translate an errno value, in which ase this
+                  * fall-back message is used.  This does not occur with glibc,
+                  * but other libc implemntations are more flakey.
+--- a/libexplain/mktemp_on_error.c
++++ b/libexplain/mktemp_on_error.c
+@@ -39,7 +39,7 @@ explain_mktemp_on_error(char *templat)
+      *     made an empty string."
+      *
+      * So, instead of returning a NULL pointer like the vast majority of libc
+-     * functions, this one returns the orginal string, but sets the first byte
++     * functions, this one returns the original string, but sets the first byte
+      * to '\0'.  Sheesh!  This makes our job much harder.
+      */
+     first = templat[0];
+--- a/man/man1/explain.1
++++ b/man/man1/explain.1
+@@ -41,7 +41,7 @@ explain \- explain system call error mes
+ .SH DESCRIPTION
+ The \*(n) command is used to decode an error return read from an
+ \f[I]strace\fP(1) listing, or silimar.  Because this is being
+-deciphered in a different process than the orginal, the results
++deciphered in a different process than the original, the results
+ will be less accurate than if the program itself were to use
+ \f[I]libexplain\fP(3).
+ .SS Functions
+--- a/man/man1/explain_lca2010.1
++++ b/man/man1/explain_lca2010.1
+@@ -988,7 +988,7 @@ tries to, you can't open a file in \f[CW
+ .E(
+ open_max = sysconf(_SC_OPEN_MAX);
+ .E)
+-This one wan't so difficult, there is a \f[I]sysconf\fP(3) way of
++This one wasn't so difficult, there is a \f[I]sysconf\fP(3) way of
+ obtaining the limit.
+ .SS ENFILE, Too many open files in system
+ This error occurs when the system limit on the total number of open files
+@@ -1242,7 +1242,7 @@ what \f[I]errno\fP(3) values may be retu
+ \[bu]
+ the cause of each error.
+ .PP
+-Because of the OO nature of function call dispatching withing the
++Because of the OO nature of function call dispatching within the
+ kernel, you need to read \f[I]all\fP sources implementing that
+ \f[I]ioctl\fP(2) request, not just the generic implementation.
+ It is to be expected that different kernels will have different error
+--- a/man/man3/explain.3
++++ b/man/man3/explain.3
+@@ -137,8 +137,8 @@ Default: 0
+ .TP 8n
+ internal\[hy]strerror
+ This option controls the source of
+-system eror message texts.
+-If false, it uses \f[I]streror\P(3) for the text.
++system error message texts.
++If false, it uses \f[I]strerror\P(3) for the text.
+ If true, it uses internal string for the text.
+ This is mostly of use for automated testing, to avoid false negatives
+ induced by inconsistencies across Unix implementations.
+--- a/man/man3/explain_chmod_or_die.3
++++ b/man/man3/explain_chmod_or_die.3
+@@ -31,7 +31,7 @@ explain_chmod_or_die \- change permissio
+ void explain_chmod_or_die(const char *pathname, int mode);
+ .SH DESCRIPTION
+ The explain_chmod_or_die function is used to call the
+-\f[I]chmod\fP(2) system call.  On failure an explanation wiil be printed
++\f[I]chmod\fP(2) system call.  On failure an explanation will be printed
+ to stderr, obtained from \f[I]explain_chmod\fP(3), and the the
+ process terminates by calling \f[CW]exit(EXIT_FAILURE)\fP.
+ .PP
+--- a/man/man3/explain_lseek.3
++++ b/man/man3/explain_lseek.3
+@@ -233,7 +233,7 @@ value of \f[I]errno\fP.
+ The original fildes, exactly as passed to the \f[I]lseek\fP(2) system call.
+ .TP 8n
+ \f[I]offset\fP
+-The orginal offset,
++The original offset,
+ exactly as passed to the \f[I]lseek\fP(2) system call.
+ .TP 8n
+ \f[I]whence\fP
+--- a/man/man3/explain_write.3
++++ b/man/man3/explain_write.3
+@@ -121,7 +121,7 @@ explained and this function, because man
+ value of \f[I]errno\fP.
+ .TP 8n
+ \f[I]fildes\fP
+-The orginal fildes, exactly as passed to the \f[I]write\fP(2) system call.
++The original fildes, exactly as passed to the \f[I]write\fP(2) system call.
+ .TP 8n
+ \f[I]data\fP
+ The original data, exactly as passed to the \f[I]write\fP(2) system call.
+--- a/test/00/t0047a.sh
++++ b/test/00/t0047a.sh
+@@ -23,12 +23,12 @@ TEST_SUBJECT="read EINVAL"
+ 
+ cat > test.ok << 'fubar'
+ read(fildes = 42, data = 0x00000100, data_size = 100) failed, Invalid
+-argument (EINVAL) because the file desriptor is attached to an object which
+-is unsuitable for reading; or, the file was opened with the O_DIRECT flag,
+-and either the address specified in data, the value specified in data_size,
+-or the current file offset is notsuitably aligned; or, the file descriptor
+-was created via a call to timerfd_create(2) and the wrong size buffer was
+-given
++argument (EINVAL) because the file descriptor is attached to an object
++which is unsuitable for reading; or, the file was opened with the O_DIRECT
++flag, and either the address specified in data, the value specified in
++data_size, or the current file offset is notsuitably aligned; or, the file
++descriptor was created via a call to timerfd_create(2) and the wrong size
++buffer was given
+ fubar
+ test $? -eq 0 || no_result
+ 
