@@ -135,7 +135,9 @@ main(int argc, char **argv)
     setlocale(LC_ALL, "");
 
     /* Set the text message domain.  */
+#ifdef HAVE_LIBINTL_H
     textdomain("libexplain");
+#endif
 
     cd = explain_iconv_open_or_die(to_code, from_code);
 
