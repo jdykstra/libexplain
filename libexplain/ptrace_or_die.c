@@ -56,7 +56,11 @@ explain_ptrace_on_error(int request, pid_t pid, void *addr, void *data)
 {
     long            result;
 
+#ifdef __APPLE__
+    result = ptrace(request, pid, (caddr_t)addr, (int)(intptr_t)data);
+#else
     result = ptrace(request, pid, addr, data);
+#endif
     if (result < 0)
     {
         int             hold_errno;

@@ -101,7 +101,13 @@ explain_buffer_errno_setresuid_explanation(explain_string_buffer_t *sb,
         break;
 
     case EPERM:
+#ifdef HAVE_GETRESUID
         getresuid(&cruid, &ceuid, &csuid);
+#else
+        cruid = getuid();
+        ceuid = geteuid();
+        csuid = ceuid;
+#endif
 
         /* build the strings we will need to report the error */
         {

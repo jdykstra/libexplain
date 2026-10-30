@@ -31,6 +31,11 @@
 #include <stdlib.h>
 #endif
 
+#ifdef __APPLE__
+/* mkdtemp, mkostemp and friends are declared in <unistd.h> on MacOS. */
+#include <unistd.h>
+#endif
+
 float explain_ac_strtof(const char *nptr, char **endptr);
 long double explain_ac_strtold(const char *nptr, char **endptr);
 

@@ -19,6 +19,8 @@
 #ifndef LIBEXPLAIN_BUFFER_TIMESPEC_H
 #define LIBEXPLAIN_BUFFER_TIMESPEC_H
 
+#include <libexplain/ac/time.h>
+
 #include <libexplain/string_buffer.h>
 
 struct timespec; /* forward */

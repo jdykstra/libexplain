@@ -19,6 +19,8 @@
 #ifndef LIBEXPLAIN_BUFFER_TIMEVAL_H
 #define LIBEXPLAIN_BUFFER_TIMEVAL_H
 
+#include <libexplain/ac/sys/time.h>
+
 #include <libexplain/string_buffer.h>
 
 struct timeval; /* forward */

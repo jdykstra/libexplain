@@ -19,6 +19,7 @@
 #include <libexplain/ac/errno.h>
 #include <libexplain/ac/sys/types.h>
 #include <libexplain/ac/grp.h>
+#include <libexplain/ac/unistd.h>
 
 #include <libexplain/getgrouplist.h>
 #include <libexplain/output.h>

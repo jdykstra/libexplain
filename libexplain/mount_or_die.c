@@ -45,6 +45,9 @@ explain_mount_on_error(const char *source, const char *target, const char
 # ifdef __FreeBSD__
     (void)file_systems_type;
     result = mount(source, target, flags, data);
+#  elif defined(__APPLE__)
+    (void)source;
+    result = mount(file_systems_type, target, (int)flags, (void *)data);
 #  else
     result = mount(source, target, file_systems_type, flags, data);
 #  endif
