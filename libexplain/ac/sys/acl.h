@@ -29,6 +29,23 @@
 
 #ifdef HAVE_SYS_ACL_H
 #include <sys/acl.h>
+
+/*
+ * MacOS has acl_* functions, but they implement NFSv4-style ACLs.
+ * Provide the POSIX.1e names the ACL text parser expects.
+ */
+#ifndef ACL_READ
+#define ACL_USER_OBJ    0x01
+#define ACL_USER        0x02
+#define ACL_GROUP_OBJ   0x04
+#define ACL_GROUP       0x08
+#define ACL_MASK        0x10
+#define ACL_OTHER       0x20
+#define ACL_READ        0x04
+#define ACL_WRITE       0x02
+#define ACL_EXECUTE     0x01
+#endif
+
 #else
 
     typedef struct acl_t *acl_t;

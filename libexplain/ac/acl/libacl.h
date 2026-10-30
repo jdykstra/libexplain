@@ -31,5 +31,10 @@
 #include <acl/libacl.h>
 #endif
 
+#ifndef HAVE_ACL_ENTRIES
+#include <libexplain/ac/sys/acl.h>
+int acl_entries(acl_t acl);
+#endif
+
 /* vim: set ts=8 sw=4 et : */
 #endif /* LIBEXPLAIN_AC_ACL_LIBACL_H */

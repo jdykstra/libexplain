@@ -30,8 +30,14 @@ acl_entries(acl_t acl)
     int id = ACL_FIRST_ENTRY;
     for (;;)
     {
+#ifdef __APPLE__
+        /* returns 0 for success, and -1 when there are no more entries */
+        if (acl_get_entry(acl, id, &ent) != 0)
+            break;
+#else
         if (0 == acl_get_entry(acl, id, &ent))
             break;
+#endif
         ++result;
         id = ACL_NEXT_ENTRY;
     }
