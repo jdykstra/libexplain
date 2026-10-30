@@ -18,6 +18,7 @@
 
 #include <libexplain/ac/linux/videodev2.h>
 
+#include <libexplain/buffer/int8.h>
 #include <libexplain/buffer/int32_t.h>
 #include <libexplain/buffer/v4l2_buf_type.h>
 #include <libexplain/buffer/v4l2_memory.h>
@@ -45,10 +46,10 @@ explain_buffer_v4l2_requestbuffers(explain_string_buffer_t *sb,
     explain_buffer_v4l2_buf_type(sb, data->type);
     explain_string_buffer_puts(sb, ", memory = ");
     explain_buffer_v4l2_memory(sb, data->memory);
-    if (!explain_uint32_array_all_zero(data->reserved, SIZEOF(data->reserved)))
+    if (!explain_uint8_array_all_zero(data->reserved, SIZEOF(data->reserved)))
     {
         explain_string_buffer_puts(sb, ", reserved = ");
-        explain_buffer_uint32_array(sb, data->reserved, SIZEOF(data->reserved));
+        explain_buffer_uint8_array(sb, data->reserved, SIZEOF(data->reserved));
     }
     explain_string_buffer_puts(sb, " }");
 }

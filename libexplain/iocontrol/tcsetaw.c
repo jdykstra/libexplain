@@ -24,7 +24,7 @@
 
 #include <libexplain/buffer/termio.h>
 
-#ifdef TCSETAW
+#if 0
 
 
 static void

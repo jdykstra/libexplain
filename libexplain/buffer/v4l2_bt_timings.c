@@ -18,6 +18,7 @@
 
 #include <libexplain/ac/linux/videodev2.h>
 
+#include <libexplain/buffer/int8.h>
 #include <libexplain/buffer/int32_t.h>
 #include <libexplain/buffer/int64_t.h>
 #include <libexplain/buffer/v4l2_bt_timings.h>
@@ -99,10 +100,10 @@ explain_buffer_v4l2_bt_timings(explain_string_buffer_t *sb,
         explain_string_buffer_puts(sb, ", il_vbackporch = ");
         explain_buffer_uint32_t(sb, data->il_vbackporch);
     }
-    if (!explain_uint32_array_all_zero(data->reserved, SIZEOF(data->reserved)))
+    if (!explain_uint8_array_all_zero(data->reserved, SIZEOF(data->reserved)))
     {
         explain_string_buffer_puts(sb, ", reserved = ");
-        explain_buffer_uint32_array(sb, data->reserved, SIZEOF(data->reserved));
+        explain_buffer_uint8_array(sb, data->reserved, SIZEOF(data->reserved));
     }
     explain_string_buffer_puts(sb, " }");
 }

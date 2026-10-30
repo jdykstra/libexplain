@@ -94,4 +94,18 @@ explain_buffer_uint8_star(explain_string_buffer_t *sb,
 }
 
 
+int
+explain_uint8_array_all_zero(const unsigned char *data, size_t data_size)
+{
+    while (data_size > 0)
+    {
+        if (*data)
+            return 0;
+        ++data;
+        --data_size;
+    }
+    return 1;
+}
+
+
 /* vim: set ts=8 sw=4 et : */

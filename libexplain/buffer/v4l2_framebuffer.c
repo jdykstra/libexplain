@@ -45,7 +45,7 @@ explain_buffer_v4l2_framebuffer(explain_string_buffer_t *sb,
     explain_string_buffer_puts(sb, ", base = ");
     explain_buffer_pointer(sb, data->base);
     explain_string_buffer_puts(sb, ", fmt = ");
-    explain_buffer_v4l2_pix_format(sb, &data->fmt);
+    explain_buffer_v4l2_pix_format(sb, (const struct v4l2_pix_format *)&data->fmt);
     explain_string_buffer_puts(sb, " }");
 }
 

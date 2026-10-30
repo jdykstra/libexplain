@@ -73,5 +73,18 @@ void explain_buffer_uint8(explain_string_buffer_t *sb, unsigned char data);
 void explain_buffer_uint8_star(explain_string_buffer_t *sb,
     const unsigned char *data, size_t data_size);
 
+#define explain_buffer_uint8_array explain_buffer_uint8_star
+
+/**
+  * The explain_uint8_array_all_zero function may be used to
+  * test an uint8 array, to see if all the values are zero.
+  *
+  * @param data
+  *     The uint8 array to be tested.
+  * @param data_size
+  *     The number of elements in the array to be tested.
+  */
+int explain_uint8_array_all_zero(const unsigned char *data, size_t data_size);
+
 #endif /* LIBEXPLAIN_BUFFER_INT8_H */
 /* vim: set ts=8 sw=4 et : */

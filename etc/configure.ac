@@ -855,6 +855,7 @@ dnl!  We need to know whether statfs takes two arguments or four.
 dnl!
 AC_MSG_CHECKING([number of arguments to statfs])
 AC_TRY_COMPILE([
+#include <sys/vfs.h>
 #ifdef HAVE_SYS_MNTENT_H
 #include <sys/statfs.h>
 #endif
@@ -1379,6 +1380,7 @@ dnl! possible, and then some.
 dnl!
 AC_MSG_CHECKING([whether <sys/ptrace.h> defines struct user_regs_struct])
 AC_TRY_RUN([
+#include <stdio.h>
 #ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
 #endif
@@ -1402,6 +1404,7 @@ AC_MSG_RESULT(cross))
 
 AC_MSG_CHECKING([whether <sys/ptrace.h> defines struct user_fpregs_struct])
 AC_TRY_RUN([
+#include <stdio.h>
 #ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
 #endif
@@ -1425,6 +1428,7 @@ AC_MSG_RESULT(cross))
 
 AC_MSG_CHECKING([whether <sys/ptrace.h> defines struct user_fpxregs_struct])
 AC_TRY_RUN([
+#include <stdio.h>
 #ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
 #endif
@@ -1448,6 +1452,7 @@ AC_MSG_RESULT(cross))
 
 AC_MSG_CHECKING([whether <sys/shm.h> defines struct ipc_perm::__key])
 AC_TRY_RUN([
+#include <stdio.h>
 #include <sys/shm.h>
 int main(argc, argv)int argc; char **argv;{
 struct ipc_perm x;
@@ -1463,6 +1468,7 @@ AC_MSG_RESULT(cross))
 
 AC_MSG_CHECKING([whether <linux/videodev2.h> defines struct v4l2_buffer::input])
 AC_TRY_RUN([
+#include <stdio.h>
 #include <linux/videodev2.h>
 int main(argc, argv)int argc; char **argv;{
 struct v4l2_buffer x;

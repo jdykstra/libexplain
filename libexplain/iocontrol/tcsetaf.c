@@ -25,7 +25,7 @@
 #include <libexplain/buffer/termio.h>
 
 
-#ifdef TCSETAF
+#if 0
 
 static void
 print_data(const explain_iocontrol_t *p, explain_string_buffer_t *sb, int

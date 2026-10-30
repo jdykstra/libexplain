@@ -24,7 +24,7 @@
 #include <libexplain/iocontrol/tcgeta.h>
 
 
-#ifdef TCGETA
+#if 0
 
 static void
 print_data_returned(const explain_iocontrol_t *p, explain_string_buffer_t *sb,

@@ -28,14 +28,7 @@
 #include <libexplain/config.h>
 
 #ifdef HAVE_FCNTL_H
-#if defined(__alpha__) && defined(HAVE_LINUX_FCNTL_H)
-#include <libexplain/ac/linux/types.h> /* Ubuntu Hardy needs this first */
-/* This is very strange, but numerous tests fail if we use <fcntl.h>
-   because it appears to have several incorrect macro definitions */
-#include <libexplain/ac/linux/fcntl.h>
-#else
 #include <fcntl.h>
-#endif
 #else
 #include <libexplain/ac/sys/file.h>
 #endif
@@ -60,12 +53,25 @@
 #endif
 
 /*
- * Even when O_LARGEFILE is not necessary, glibc adds one in for free.
- * The trouble is, this make things interesting when decoding
- * flags values returned by the kernel.
+ * On 64-bit linux, fcntl(F_GETFL) always returns O_LARGEFILE even if we don't
+ * request it. Unfortunately glibc does not expose this value so we have to
+ * handle it ourselves. Also the value changes across arches *sigh*.
+ *
+ * These values were taken from the asm/fcntl.h kernel header for each arch.
+ * We can't include this header because it conflicts with glibc's fcntl.h.
  */
 #if defined(__linux__) && (O_LARGEFILE == 0)
-#define O_LARGEFILE_HIDDEN 0100000
+# if defined(__aarch64__) || defined(__alpha__)
+#  define O_LARGEFILE_HIDDEN 0400000
+# elif defined(__mips64)
+#  define O_LARGEFILE_HIDDEN 0x2000
+# elif defined(__PPC64__)
+#  define O_LARGEFILE_HIDDEN 0200000
+# elif defined(__sparc__) && defined(__arch64__)
+#  define O_LARGEFILE_HIDDEN 0x40000
+# else
+#  define O_LARGEFILE_HIDDEN 0100000
+# endif
 #endif
 
 

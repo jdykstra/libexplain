@@ -24,7 +24,7 @@
 #include <libexplain/string_buffer.h>
 
 
-#ifdef TCSETA
+#if 0
 
 static void
 print_data(const explain_iocontrol_t *p, explain_string_buffer_t *sb,
