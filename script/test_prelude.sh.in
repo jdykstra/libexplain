@@ -112,6 +112,42 @@ test $? -eq 0 || no_result
 # reports the resolved path, so the tests need to use the real one.
 testdir=`pwd -P`
 
+normalize_wrapped_text()
+{
+    awk '
+        NF == 0 {
+            if (have_words) {
+                print ""
+                print ""
+                have_words = 0
+            }
+            next
+        }
+        {
+            if (have_words)
+                printf " "
+            for (i = 1; i <= NF; ++i) {
+                if (i > 1)
+                    printf " "
+                printf "%s", $i
+            }
+            have_words = 1
+        }
+        END {
+            if (have_words)
+                print ""
+        }
+    ' "$1"
+}
+
+# Ignore formatter-specific line breaks while preserving paragraph boundaries.
+diff_wrapped()
+{
+    normalize_wrapped_text "$1" > test.expected.normalized || return 1
+    normalize_wrapped_text "$2" > test.actual.normalized || return 1
+    diff test.expected.normalized test.actual.normalized
+}
+
 # On cygwin, we need to have diff ignore the CR in CRLF sequences
 # otherwise we see diff output which looks to be identical but which
 # diff things differs.  And it does, by a carriage return.

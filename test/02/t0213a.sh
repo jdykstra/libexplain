@@ -51,9 +51,9 @@ test $? -eq 0 || no_result
 fmt test.out2 > test.out
 test $? -eq 0 || no_result
 
-diff test.ok.2 test.out > /dev/null 2> /dev/null && pass
+diff_wrapped test.ok.2 test.out > /dev/null 2> /dev/null && pass
 
-diff test.ok.1 test.out
+diff_wrapped test.ok.1 test.out
 test $? -eq 0 || fail
 
 #

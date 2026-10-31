@@ -66,10 +66,10 @@ test $? -eq 0 || no_result
 fmt test.out2 > test.out
 test $? -eq 0 || no_result
 
-diff test.ok2 test.out > /dev/null 2> /dev/null || \
-diff test.ok3 test.out > /dev/null 2> /dev/null || \
-diff test.ok4 test.out > /dev/null 2> /dev/null || \
-diff test.ok test.out
+diff_wrapped test.ok2 test.out > /dev/null 2> /dev/null || \
+diff_wrapped test.ok3 test.out > /dev/null 2> /dev/null || \
+diff_wrapped test.ok4 test.out > /dev/null 2> /dev/null || \
+diff_wrapped test.ok test.out
 test $? -eq 0 || fail
 
 #

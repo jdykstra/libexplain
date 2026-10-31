@@ -60,7 +60,7 @@ test $? -eq 0 || no_result
 fmt test.out3 > test.out
 test $? -eq 0 || no_result
 
-diff test.ok test.out
+diff_wrapped test.ok test.out
 test $? -eq 0 || fail
 
 #
