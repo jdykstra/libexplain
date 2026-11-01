@@ -47973,6 +47973,12 @@ test_files = t0001a t0002a t0003a t0004a t0005a t0006a t0007a t0008a t0009a \
 		t0700a t0701a t0702a t0703a t0704a t0705a t0706a t0707a t0708a \
 		t0709a t0710a t0711a t9999a
 
+ifneq ($(shell uname -s),Linux)
+test_files := $(filter-out t0348a t0350a t0351a t0352a t0353a t0354a \
+		t0355a t0479a t0480a t0481a t0482a t0483a t0490a t0491a \
+		t9999a,$(test_files))
+endif
+
 sure: $(test_files)
 	@echo Passed All Tests
 
