@@ -29,6 +29,7 @@ static void
 usage(void)
 {
     fprintf(stderr, "Usage: test_dup2 <oldfd> <newfd>\n");
+    fprintf(stderr, "       test_dup2 -m\n");
     fprintf(stderr, "       test_dup2 -V\n");
     exit(EXIT_FAILURE);
 }
@@ -42,11 +43,19 @@ main(int argc, char **argv)
 
     for (;;)
     {
-        int c = getopt(argc, argv, "V");
+        int c = getopt(argc, argv, "mV");
         if (c == EOF)
             break;
         switch (c)
         {
+        case 'm':
+#ifdef __APPLE__
+            printf("%d\n", getdtablesize());
+#else
+            printf("%ld\n", sysconf(_SC_OPEN_MAX));
+#endif
+            return EXIT_SUCCESS;
+
         case 'V':
             explain_version_print();
             return EXIT_SUCCESS;

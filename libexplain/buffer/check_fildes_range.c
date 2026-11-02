@@ -27,7 +27,14 @@
 static int
 get_open_max(void)
 {
+#ifdef __APPLE__
+    /*
+     * _SC_OPEN_MAX can exceed the descriptor table size enforced by dup2.
+     */
+    int open_max = getdtablesize();
+#else
     int open_max = sysconf(_SC_OPEN_MAX);
+#endif
     if (open_max < 0)
     {
 #ifdef OPEN_MAX

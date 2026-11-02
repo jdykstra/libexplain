@@ -39,19 +39,22 @@ fi
 diff test.ok test.out
 test $? -eq 0 || fail
 
-fmt > test.ok << 'fubar'
-dup2(oldfd = 1, newfd = 987654) failed, Bad file descriptor (EBADF)
+newfd=$(test_dup2 -m)
+test $? -eq 0 || no_result
+
+fmt > test.ok << fubar
+dup2(oldfd = 1, newfd = $newfd) failed, Bad file descriptor (EBADF)
 because the newfd argument is outside the allowed range for file descriptors
 fubar
 test $? -eq 0 || no_result
 
-fmt > test.ok2 << 'fubar'
-dup2(oldfd = 1, newfd = 987654) failed, Too many open files (EMFILE)
+fmt > test.ok2 << fubar
+dup2(oldfd = 1, newfd = $newfd) failed, Too many open files (EMFILE)
 because the newfd argument is outside the allowed range for file descriptors
 fubar
 test $? -eq 0 || no_result
 
-test_dup2 1 987654 > test.out4 2>&1
+test_dup2 1 "$newfd" > test.out4 2>&1
 if test "$?" -ne 1
 then
     echo expeted to fail

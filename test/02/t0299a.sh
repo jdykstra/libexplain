@@ -21,13 +21,16 @@
 TEST_SUBJECT="dup2 EINVAL"
 . test_prelude
 
-fmt > test.ok << 'fubar'
-dup2(oldfd = 1, newfd = 987654) failed, Invalid argument (EINVAL) because
+newfd=$(test_dup2 -m)
+test $? -eq 0 || no_result
+
+fmt > test.ok << fubar
+dup2(oldfd = 1, newfd = $newfd) failed, Invalid argument (EINVAL) because
 the newfd argument is outside the allowed range for file descriptors
 fubar
 test $? -eq 0 || no_result
 
-explain -eEINVAL dup2 1 987654 > test.out4
+explain -eEINVAL dup2 1 "$newfd" > test.out4
 test $? -eq 0 || fail
 
 fmt -w 700 test.out4 > test.out3
