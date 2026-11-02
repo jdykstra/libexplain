@@ -31,7 +31,10 @@ test $? -eq 0 || no_result
 explain -eENOTDIR openat /etc/passwd x/y/x O_RDONLY > test.out
 test $? -eq 0 || fail
 
-diff test.ok test.out
+sed 's|/private/etc|/etc|g' test.out > test.out.normalized
+test $? -eq 0 || no_result
+
+diff_wrapped test.ok test.out.normalized
 test $? -eq 0 || fail
 
 #

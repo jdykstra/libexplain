@@ -47,9 +47,12 @@ test $? -eq 0 || fail
 fmt test.out.2 > test.out
 test $? -eq 0 || no_result
 
-diff test.ok.2 test.out > /dev/null 2>&1 && pass
+sed 's|/private/etc|/etc|g' test.out > test.out.normalized
+test $? -eq 0 || no_result
 
-diff test.ok test.out
+diff_wrapped test.ok.2 test.out.normalized > /dev/null 2>&1 && pass
+
+diff_wrapped test.ok test.out.normalized
 test $? -eq 0 || fail
 
 #
