@@ -149,6 +149,17 @@ explain_buffer_errno_socket_explanation(explain_string_buffer_t *sb,
         );
         break;
 
+#ifdef EPROTOTYPE
+    case EPROTOTYPE:
+        explain_string_buffer_puts
+        (
+            sb,
+            "the specified protocol does not support the requested "
+            "socket type"
+        );
+        break;
+#endif
+
     default:
         explain_buffer_errno_generic(sb, errnum, syscall_name);
         break;

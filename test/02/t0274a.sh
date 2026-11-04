@@ -18,13 +18,20 @@
 # with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 
-TEST_SUBJECT="socket EPROTONOSUPPORT"
+TEST_SUBJECT="socket EPROTONOSUPPORT or EPROTOTYPE"
 . test_prelude
 
 cat > test.ok << 'fubar'
 socket(family = PF_INET, type = SOCK_STREAM, protocol = IPPROTO_RAW)
 failed, Protocol not supported (EPROTONOSUPPORT) because the protocol type
 or the specified protocol is not supported within this address family
+fubar
+test $? -eq 0 || no_result
+
+cat > test.ok.2 << 'fubar'
+socket(family = PF_INET, type = SOCK_STREAM, protocol = IPPROTO_RAW)
+failed, Protocol wrong type for socket (EPROTOTYPE) because the specified
+protocol does not support the requested socket type
 fubar
 test $? -eq 0 || no_result
 
@@ -36,7 +43,9 @@ then
     fail
 fi
 
-diff test.ok test.out
+diff test.ok test.out > /dev/null 2>&1 && pass
+
+diff test.ok.2 test.out
 test $? -eq 0 || fail
 
 #
