@@ -19,6 +19,27 @@ dnl!
 AC_INIT(install-sh)
 AC_CONFIG_HEADER(libexplain/config.h)
 AC_USE_SYSTEM_EXTENSIONS
+
+AC_ARG_VAR([HOMEBREW_PREFIX], [Homebrew installation prefix])
+case `uname -s 2> /dev/null` in
+Darwin)
+    if test -z "$HOMEBREW_PREFIX"; then
+        if command -v brew > /dev/null 2>&1; then
+            HOMEBREW_PREFIX=`brew --prefix 2> /dev/null`
+        fi
+        if test -z "$HOMEBREW_PREFIX"; then
+            case `uname -m` in
+            arm64) HOMEBREW_PREFIX=/opt/homebrew ;;
+            *) HOMEBREW_PREFIX=/usr/local ;;
+            esac
+        fi
+    fi
+    PATH="$HOMEBREW_PREFIX/opt/bison/bin:$HOMEBREW_PREFIX/opt/make/libexec/gnubin:$HOMEBREW_PREFIX/opt/gnu-sed/libexec/gnubin:$HOMEBREW_PREFIX/bin:$PATH"
+    export PATH
+    ;;
+esac
+AC_SUBST([HOMEBREW_PREFIX])
+
 AC_LANG_C
 AC_LANG_ASSERT(C)
 AC_PROG_CC
@@ -176,7 +197,7 @@ dnl! AC_CHECK_LIB(compat, ftime)
 dnl!
 dnl! Access control support
 dnl!
-AC_CHECK_PROGS(LIBTOOL, libtool)
+AC_CHECK_PROGS(LIBTOOL, glibtool libtool)
 
 if test -z "$LIBTOOL"
 then

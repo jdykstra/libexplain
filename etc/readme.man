@@ -22,6 +22,16 @@
 .so etc/version.so
 .hy 0
 .ad l
+.SH PROJECT NOTES
+This fork of Peter Miller (1960\[hy]2014)'s \fIlibexplain\fP includes
+maintenance fixes from Debian and MacOS support.
+.PP
+The \fIBUILDING\fP file includes a "GETTING HELP" section, but the listed
+email address is no longer active.
+Use GitHub's Issue tab to report bugs in the MacOS support.
+I cannot provide general support for \fIlibexplain\fP.
+.br
+.ne 1i
 .SH NAME
 libexplain \- Explain errno values returned by libc functions
 .XX "" "The README file"

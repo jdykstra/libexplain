@@ -179,6 +179,13 @@ GROFF = @GROFF@
 #
 SOELIM = @SOELIM@
 
+HOMEBREW_PREFIX = @HOMEBREW_PREFIX@
+
+ifeq ($(shell uname -s),Darwin)
+PATH := $(HOMEBREW_PREFIX)/opt/bison/bin:$(HOMEBREW_PREFIX)/opt/make/libexec/gnubin:$(HOMEBREW_PREFIX)/opt/gnu-sed/libexec/gnubin:$(HOMEBREW_PREFIX)/bin:$(PATH)
+export PATH
+endif
+
 # ---------------------------------------------------------
 # You should not need to change anything below this line.
 

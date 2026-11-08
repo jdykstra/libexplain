@@ -99,6 +99,36 @@ The GNU FTP archives may be found at \f[CW]ftp.gnu.org\fP,
 and are mirrored around the world.
 .br
 .ne 1i
+.SH MACOS WITH HOMEBREW
+Install the required GNU tools using Homebrew:
+.RS
+.ft CW
+.nf
+\f[B]$ \f[P]brew install bison gawk make gnu-sed groff gettext libtool
+\f[B]$\fP
+.fi
+.ft R
+.RE
+The \f[I]configure\fP script automatically searches Homebrew for the
+GNU versions of Bison, Make, and sed.  It selects \f[I]glibtool\fP in
+place of Apple's incompatible \f[I]libtool\fP.
+If Homebrew is installed in a non-standard location, set
+\f[CW]HOMEBREW_PREFIX\fP to its prefix.
+.PP
+Use Homebrew's \f[I]gmake\fP command to build and test:
+.RS
+.ft CW
+.nf
+\f[B]$ \f[P]./configure \-\-prefix="${PREFIX:-/usr/local}"
+\f[B]$ \f[P]gmake \-j"$(sysctl \-n hw.ncpu)"
+\f[B]$ \f[P]gmake sure
+\f[B]$ \f[P]gmake install
+\f[B]$\fP
+.fi
+.ft R
+.RE
+.br
+.ne 1i
 .SH SITE CONFIGURATION
 The \f[B]libexplain\fP package is configured using the \f[I]configure\fP
 program included in this distribution.

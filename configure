@@ -659,6 +659,7 @@ build_vendor
 build_cpu
 build
 CPP
+HOMEBREW_PREFIX
 OBJEXT
 EXEEXT
 ac_ct_CC
@@ -720,6 +721,7 @@ CFLAGS
 LDFLAGS
 LIBS
 CPPFLAGS
+HOMEBREW_PREFIX
 CPP
 YACC
 YFLAGS'
@@ -1359,6 +1361,8 @@ Some influential environment variables:
   LIBS        libraries to pass to the linker, e.g. -l<library>
   CPPFLAGS    (Objective) C/C++ preprocessor flags, e.g. -I<include dir> if
               you have headers in a nonstandard directory <include dir>
+  HOMEBREW_PREFIX
+              Homebrew installation prefix
   CPP         C preprocessor
   YACC        The 'Yet Another Compiler Compiler' implementation to use.
               Defaults to the first program found out of: 'bison -y', 'byacc',
@@ -4219,6 +4223,27 @@ then :
 
 fi
 
+
+
+case `uname -s 2> /dev/null` in
+Darwin)
+    if test -z "$HOMEBREW_PREFIX"; then
+        if command -v brew > /dev/null 2>&1; then
+            HOMEBREW_PREFIX=`brew --prefix 2> /dev/null`
+        fi
+        if test -z "$HOMEBREW_PREFIX"; then
+            case `uname -m` in
+            arm64) HOMEBREW_PREFIX=/opt/homebrew ;;
+            *) HOMEBREW_PREFIX=/usr/local ;;
+            esac
+        fi
+    fi
+    PATH="$HOMEBREW_PREFIX/opt/bison/bin:$HOMEBREW_PREFIX/opt/make/libexec/gnubin:$HOMEBREW_PREFIX/opt/gnu-sed/libexec/gnubin:$HOMEBREW_PREFIX/bin:$PATH"
+    export PATH
+    ;;
+esac
+
+
 ac_ext=c
 ac_cpp='$CPP $CPPFLAGS'
 ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -6562,7 +6587,7 @@ fi
 
 
 
-for ac_prog in libtool
+for ac_prog in glibtool libtool
 do
   # Extract the first word of "$ac_prog", so it can be a program name with args.
 set dummy $ac_prog; ac_word=$2
